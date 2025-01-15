@@ -1,10 +1,13 @@
 // TODO implement history
 // TODO implement isValidSolution
-// TODO remove headerToAction field
+
+// TODO remove headerToAction field      - can lead into abyss
+// TODO remove headerToRequirement field - can lead into abyss
 
 abstract class DLXSolver<in R, A>(
     requirements: List<R>,
-    actions: Map<A, List<R>>
+    actions: Map<A, List<R>>,
+    optionalRequirements: List<R> = emptyList()
 ) {
 
     open fun requirementReadableName(requirement: R) : String = requirement.toString()
@@ -14,14 +17,21 @@ abstract class DLXSolver<in R, A>(
     private val allSolutions: MutableList<List<A>> = mutableListOf()
     private val matrixRoot = DLXCell("root")
 
-    private var columnHeaders : Map<R, DLXCell> = requirements.associateWith { DLXCell(requirementReadableName(it)) }
+    private val optionalRequirements = optionalRequirements.toSet()
+    private var columnHeaders : Map<R, DLXCell>
     private var rowHeaders : Map<A, DLXCell>
+
     private var headerToAction: Map<DLXCell, A>
+    private var headerToRequirement: Map<DLXCell, R>
 
     init {
-        val cells = mutableListOf<Pair<DLXCell, A>>()
-        rowHeaders = actions.keys.associateWith { action -> DLXCell(actionReadableName(action)).also { cells += it to action} }
-        headerToAction = cells.toMap()
+        val requirementCells = mutableListOf<Pair<DLXCell, R>>()
+        columnHeaders = (requirements + optionalRequirements).associateWith { requirement -> DLXCell(requirementReadableName(requirement)).also { requirementCells += it to requirement} }
+        headerToRequirement = requirementCells.toMap()
+
+        val actionCells = mutableListOf<Pair<DLXCell, A>>()
+        rowHeaders = actions.keys.associateWith { action -> DLXCell(actionReadableName(action)).also { actionCells += it to action} }
+        headerToAction = actionCells.toMap()
 
         for (columnHeader in columnHeaders) {
             matrixRoot.attachHorizontal(columnHeader.value)
@@ -52,12 +62,16 @@ abstract class DLXSolver<in R, A>(
         var n = matrixRoot.nextX
 
         while (n != matrixRoot) {
-            val value = requirementSortCriteria(n)
-            if (bestColumn == matrixRoot || value < bestValue) {
-                bestColumn = n
-                bestValue = value
+            if (headerToRequirement[n] !in optionalRequirements) {
+                val value = requirementSortCriteria(n)
+                if (bestColumn == matrixRoot || value < bestValue) {
+                    bestColumn = n
+                    bestValue = value
+                }
+                n = n.nextX
+            } else {
+                n = matrixRoot
             }
-            n = n.nextX
         }
 
         if (bestColumn == matrixRoot) {
