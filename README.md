@@ -17,3 +17,4 @@ Pure implementation of DLX Solver can be found in [src/dlx_solver.kt](src/dlx_so
 6. [Dominoes solver](https://www.codingame.com/training/hard/dominoes-solver)
 7. [Paving with bricks](https://www.codingame.com/training/medium/paving-with-bricks)
 8. [Mrs. Knuth 2](https://www.codingame.com/contribute/view/950238e7e8f40105ccd0fd6237bf60c4d25b3)
+9. [n Queens](https://www.codingame.com/training/hard/n-queens)
