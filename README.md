@@ -15,4 +15,5 @@ Pure implementation of DLX Solver can be found in [src/dlx_solver.kt](src/dlx_so
 4. [Literary Alfabet Soupe](https://www.codingame.com/training/medium/literary-alfabet-soupe)
 5. [Shikaku Solver](https://www.codingame.com/training/medium/shikaku-solver)
 6. [Dominoes solver](https://www.codingame.com/training/hard/dominoes-solver)
-6. [Paving with bricks](https://www.codingame.com/training/medium/paving-with-bricks)
+7. [Paving with bricks](https://www.codingame.com/training/medium/paving-with-bricks)
+8. [Mrs. Knuth 2](https://www.codingame.com/contribute/view/950238e7e8f40105ccd0fd6237bf60c4d25b3)
