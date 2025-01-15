@@ -1,38 +1,21 @@
 // TODO implement history
 // TODO implement isValidSolution
 
-// TODO remove headerToAction field      - can lead into abyss
-// TODO remove headerToRequirement field - can lead into abyss
-
-abstract class DLXSolver<in R, A>(
+abstract class DLXSolver<in R : Any, A : Any>(
     requirements: List<R>,
     actions: Map<A, List<R>>,
     optionalRequirements: List<R> = emptyList()
 ) {
 
-    open fun requirementReadableName(requirement: R) : String = requirement.toString()
-    open fun actionReadableName(action: A) : String = action.toString()
-
     private val solution: MutableList<A> = mutableListOf()
     private val allSolutions: MutableList<List<A>> = mutableListOf()
-    private val matrixRoot = DLXCell("root")
+    private val matrixRoot = DLXCell(Unit)
 
     private val optionalRequirements = optionalRequirements.toSet()
-    private var columnHeaders : Map<R, DLXCell>
-    private var rowHeaders : Map<A, DLXCell>
-
-    private var headerToAction: Map<DLXCell, A>
-    private var headerToRequirement: Map<DLXCell, R>
+    private val columnHeaders = (requirements + optionalRequirements).associateWith { requirement -> DLXCell(requirement) }
+    private val rowHeaders = actions.keys.associateWith { action -> DLXCell(action) }
 
     init {
-        val requirementCells = mutableListOf<Pair<DLXCell, R>>()
-        columnHeaders = (requirements + optionalRequirements).associateWith { requirement -> DLXCell(requirementReadableName(requirement)).also { requirementCells += it to requirement} }
-        headerToRequirement = requirementCells.toMap()
-
-        val actionCells = mutableListOf<Pair<DLXCell, A>>()
-        rowHeaders = actions.keys.associateWith { action -> DLXCell(actionReadableName(action)).also { actionCells += it to action} }
-        headerToAction = actionCells.toMap()
-
         for (columnHeader in columnHeaders) {
             matrixRoot.attachHorizontal(columnHeader.value)
         }
@@ -40,7 +23,9 @@ abstract class DLXSolver<in R, A>(
         for ((action, satisfiedRequirements) in actions) {
             val previousCell = rowHeaders[action] ?: throw IllegalStateException()
             for (requirement in satisfiedRequirements) {
-                val nextCell = DLXCell().apply {
+                val cHeader = columnHeaders[requirement]
+                val rHeader = previousCell
+                val nextCell = DLXCell("${cHeader?.content}/${rHeader.content}").apply {
                     columnHeader = columnHeaders[requirement] ?: throw IllegalStateException("Action - $action expects not specified requirement - $requirement")
                     rowHeader = previousCell
                     columnHeader.attachVertical(this)
@@ -62,7 +47,7 @@ abstract class DLXSolver<in R, A>(
         var n = matrixRoot.nextX
 
         while (n != matrixRoot) {
-            if (headerToRequirement[n] !in optionalRequirements) {
+            if (n.content !in optionalRequirements) {
                 val value = requirementSortCriteria(n)
                 if (bestColumn == matrixRoot || value < bestValue) {
                     bestColumn = n
@@ -105,7 +90,7 @@ abstract class DLXSolver<in R, A>(
 
     private fun select(cell: DLXCell) {
         cell.select()
-        solution.add(headerToAction[cell.rowHeader] ?: throw IllegalStateException())
+        solution.add(cell.rowHeader.content as? A ?: throw IllegalStateException())
         processRowSelection(cell.rowHeader)
     }
 
@@ -125,9 +110,7 @@ abstract class DLXSolver<in R, A>(
 
 }
 
-class DLXCell(
-    val title: String = ""
-) {
+class DLXCell(val content: Any) {
 
     var prevX: DLXCell = this
     var nextX: DLXCell = this
