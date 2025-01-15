@@ -14,3 +14,4 @@ Pure implementation of DLX Solver can be found in [src/dlx_solver.kt](src/dlx_so
 3. [Constrained Latin Squares](https://www.codingame.com/training/medium/constrained-latin-squares)
 4. [Literary Alfabet Soupe](https://www.codingame.com/training/medium/literary-alfabet-soupe)
 5. [Shikaku Solver](https://www.codingame.com/training/medium/shikaku-solver)
+6. [Dominoes solver](https://www.codingame.com/training/hard/dominoes-solver)
