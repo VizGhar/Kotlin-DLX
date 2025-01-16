@@ -105,7 +105,7 @@ abstract class DLXSolver<in R : Any, A : Any>(
     open fun processRowSelection(row: DLXCell) {}
     open fun processRowDeselection(row: DLXCell) {}
 
-    open fun processSolution(solution: MutableList<A>): Boolean = false
+    open fun processSolution(solution: List<A>): Boolean = false
     open fun onFinished(solutions: List<List<A>>) {}
 
 }

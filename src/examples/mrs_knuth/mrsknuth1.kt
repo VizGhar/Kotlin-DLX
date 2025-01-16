@@ -17,7 +17,7 @@ class MrsKnuth1Solver(
     actions: Map<Action, List<Requirement>>
 ) : DLXSolver<Requirement, Action>(requirements, actions) {
 
-    override fun processSolution(solution: MutableList<Action>) : Boolean {
+    override fun processSolution(solution: List<Action>) : Boolean {
         for (time in listOf(-1, 8, 9, 10, 11, 0, 1, 2, 3, 4)) {
             if (time == -1) { println("       Monday        Tuesday       Wednesday       Thursday        Friday"); continue }
             if (time == 0) { println("       LUNCH          LUNCH          LUNCH          LUNCH          LUNCH"); continue }

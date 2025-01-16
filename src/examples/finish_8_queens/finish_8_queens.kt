@@ -20,7 +20,7 @@ class Finish8QueensSolver(
     optionalRequirements: List<Requirement>,
 ) : DLXSolver<Requirement, Action>(requirements, actions, optionalRequirements) {
 
-    override fun processSolution(solution: MutableList<Action>): Boolean {
+    override fun processSolution(solution: List<Action>): Boolean {
         for (y in 0..7) {
             for (x in 0..7) {
                 if (board[y][x] == 'Q' || solution.any { it.y == y && it.x == x }) print("Q") else print(".")

@@ -22,7 +22,7 @@ class SudokuSolver(
     actions: Map<Action, List<Requirement>>
 ) : DLXSolver<Requirement, Action>(requirements, actions) {
 
-    override fun processSolution(solution: MutableList<Action>): Boolean {
+    override fun processSolution(solution: List<Action>): Boolean {
         for (row in 0 until sudokuSize) {
             for (col in 0 until sudokuSize) {
                 print(solution.first { it.col == col && it.row == row }.value)

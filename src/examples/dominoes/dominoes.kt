@@ -18,7 +18,7 @@ class DominoesSolver(
     requirements: List<Requirement>,
     actions: Map<Action, List<Requirement>>
 ) : DLXSolver<Requirement, Action>(requirements, actions) {
-    override fun processSolution(solution: MutableList<Action>): Boolean {
+    override fun processSolution(solution: List<Action>): Boolean {
         println(solution)
         for (y in 0 .. height-1) {
             for (x in 0 .. width -1) {

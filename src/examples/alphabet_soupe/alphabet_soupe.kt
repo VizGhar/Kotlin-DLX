@@ -39,7 +39,7 @@ class AlphabetSoupeSolver(
     actions: Map<Action, List<Requirement>>
 ) : DLXSolver<Requirement, Action>(requirements, actions) {
 
-    override fun processSolution(solution: MutableList<Action>): Boolean {
+    override fun processSolution(solution: List<Action>): Boolean {
         for (i in 0..12) {
             println(solution.first { it.lineId == i }.language)
         }
