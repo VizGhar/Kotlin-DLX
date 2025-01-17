@@ -115,3 +115,4 @@ fun main() {
 8. [Mrs. Knuth 2](https://www.codingame.com/contribute/view/950238e7e8f40105ccd0fd6237bf60c4d25b3)
 9. [n Queens](https://www.codingame.com/training/hard/n-queens)
 10. [Finish 8 queens](https://www.codingame.com/training/medium/finish-the-eight-queens)
+11. [Einstein's Riddle Solver](https://www.codingame.com/training/hard/einsteins-riddle-solver)
