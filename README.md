@@ -116,3 +116,4 @@ fun main() {
 9. [n Queens](https://www.codingame.com/training/hard/n-queens)
 10. [Finish 8 queens](https://www.codingame.com/training/medium/finish-the-eight-queens)
 11. [Einstein's Riddle Solver](https://www.codingame.com/training/hard/einsteins-riddle-solver)
+12. [Three little piggies](https://www.codingame.com/training/hard/three-little-piggies)
