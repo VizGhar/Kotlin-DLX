@@ -5,7 +5,7 @@ import DLXSolver
 /**
  * https://www.codingame.com/training/hard/who-dunnit
  */
-object WhoDunnit {
+private object WhoDunnit {
 
     data class ItemMarked(val x: Int, val y: Int)
 
@@ -46,7 +46,7 @@ object WhoDunnit {
 
 }
 
-fun main() {
+fun solveWhoDunnit() {
     val l = readln().split(" ")[0].toInt()
     val all = (1..l).map { readln().split(", ") }
     WhoDunnit.solve(all.first(), all) { println(it) }
