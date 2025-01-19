@@ -1,6 +1,3 @@
-// TODO implement history
-// TODO implement isValidSolution
-
 abstract class DLXSolver<in R : Any, A : Any>(
     requirements: List<R>,
     actions: Map<A, List<R>>,
@@ -14,6 +11,9 @@ abstract class DLXSolver<in R : Any, A : Any>(
     private val optionalRequirements = optionalRequirements.toSet()
     private val columnHeaders = (requirements + optionalRequirements).associateWith { requirement -> DLXCell(requirement) }
     private val rowHeaders = actions.keys.associateWith { action -> DLXCell(action) }
+
+    private val history = mutableListOf(mutableSetOf<Any>())
+    private var solutionIsValid = true
 
     init {
         for (columnHeader in columnHeaders) {
@@ -60,7 +60,9 @@ abstract class DLXSolver<in R : Any, A : Any>(
         }
 
         if (bestColumn == matrixRoot) {
-            if (processSolution(solution)) { breaking = true }
+            if (solutionIsValid) {
+                if (processSolution(solution)) { breaking = true }
+            }
             allSolutions += solution.map { it }
         } else {
             val actions = mutableListOf<DLXCell>()
@@ -70,15 +72,22 @@ abstract class DLXSolver<in R : Any, A : Any>(
                 n = n.nextY
             }
 
+            history.add(history.last().toMutableSet())
+
             for (node in actions.sortedBy { actionSortCriteria(it) }) {
                 select(node)
-                solve()
+                if (solutionIsValid) {
+                    solve()
+                }
                 if (breaking) {
                     checkFinish()
                     return
                 }
                 deselect(node)
+                solutionIsValid = true
             }
+            history.removeAt(history.lastIndex)
+
         }
         checkFinish()
     }
@@ -98,6 +107,14 @@ abstract class DLXSolver<in R : Any, A : Any>(
         cell.unselect()
         solution.removeLast()
         processRowDeselection(cell.rowHeader)
+    }
+
+    fun remember(data: Any) {
+        if (data in history.last()) {
+            solutionIsValid = false
+        } else {
+            history.last().add(data)
+        }
     }
 
     open fun actionSortCriteria(rowHeader: DLXCell) = 0
