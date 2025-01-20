@@ -121,3 +121,4 @@ fun main() {
 14. [Mrs. Knuth 3](https://www.codingame.com/contribute/view/959460130d2f9792d933f75838edb639a6dae)
 15. [Futoshiki Solver](https://www.codingame.com/training/medium/futoshiki-solver)
 16. [Suguru Solver](https://www.codingame.com/training/medium/suguru-solver)
+17. [Dumbells](https://www.codingame.com/training/hard/dumbbells-solver)
