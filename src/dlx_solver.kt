@@ -117,6 +117,10 @@ abstract class DLXSolver<in R : Any, A : Any>(
         }
     }
 
+    fun markAsInvalid() {
+        solutionIsValid = false
+    }
+
     open fun actionSortCriteria(rowHeader: DLXCell) = 0
     open fun requirementSortCriteria(columnHeader: DLXCell) = columnHeader.size
     open fun processRowSelection(row: DLXCell, action: A) {}
