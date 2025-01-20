@@ -122,3 +122,4 @@ fun main() {
 15. [Futoshiki Solver](https://www.codingame.com/training/medium/futoshiki-solver)
 16. [Suguru Solver](https://www.codingame.com/training/medium/suguru-solver)
 17. [Dumbells](https://www.codingame.com/training/hard/dumbbells-solver)
+18. [High-rise buildings](https://www.codingame.com/training/expert/high-rise-buildings)
