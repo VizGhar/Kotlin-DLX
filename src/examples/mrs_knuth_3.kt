@@ -35,8 +35,7 @@ private object MrsKnuth3 {
         optionalRequirements: List<Requirement>,
     ) : DLXSolver<Requirement, Action>(requirements, actions, optionalRequirements) {
 
-        override fun processRowSelection(row: DLXCell) {
-            val action = row.content as Action
+        override fun processRowSelection(row: DLXCell, action: Action) {
             remember(HistoryItem(action.studentName, action.day, action.timeSlot))
         }
 

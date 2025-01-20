@@ -100,13 +100,13 @@ abstract class DLXSolver<in R : Any, A : Any>(
     private fun select(cell: DLXCell) {
         cell.select()
         solution.add(cell.rowHeader.content as? A ?: throw IllegalStateException())
-        processRowSelection(cell.rowHeader)
+        processRowSelection(cell.rowHeader, cell.rowHeader.content as? A ?: throw IllegalStateException())
     }
 
     private fun deselect(cell: DLXCell) {
         cell.unselect()
         solution.removeLast()
-        processRowDeselection(cell.rowHeader)
+        processRowDeselection(cell.rowHeader, cell.rowHeader.content as? A ?: throw IllegalStateException())
     }
 
     fun remember(data: Any) {
@@ -119,8 +119,8 @@ abstract class DLXSolver<in R : Any, A : Any>(
 
     open fun actionSortCriteria(rowHeader: DLXCell) = 0
     open fun requirementSortCriteria(columnHeader: DLXCell) = columnHeader.size
-    open fun processRowSelection(row: DLXCell) {}
-    open fun processRowDeselection(row: DLXCell) {}
+    open fun processRowSelection(row: DLXCell, action: A) {}
+    open fun processRowDeselection(row: DLXCell, action: A) {}
 
     open fun processSolution(solution: List<A>): Boolean = false
     open fun onFinished(solutions: List<List<A>>) {}
