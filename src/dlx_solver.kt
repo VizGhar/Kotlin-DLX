@@ -48,7 +48,7 @@ abstract class DLXSolver<in R : Any, A : Any>(
 
         while (n != matrixRoot) {
             if (n.content !in optionalRequirements) {
-                val value = requirementSortCriteria(n)
+                val value = requirementSortCriteria(n, n.content as R)
                 if (bestColumn == matrixRoot || value < bestValue) {
                     bestColumn = n
                     bestValue = value
@@ -74,7 +74,7 @@ abstract class DLXSolver<in R : Any, A : Any>(
 
             history.add(history.last().toMutableSet())
 
-            for (node in actions.sortedBy { actionSortCriteria(it) }) {
+            for (node in actions.sortedBy { actionSortCriteria(it, it.rowHeader.content as A) }) {
                 select(node)
                 if (solutionIsValid) {
                     solve()
@@ -121,8 +121,8 @@ abstract class DLXSolver<in R : Any, A : Any>(
         solutionIsValid = false
     }
 
-    open fun actionSortCriteria(rowHeader: DLXCell) = 0
-    open fun requirementSortCriteria(columnHeader: DLXCell) = columnHeader.size
+    open fun actionSortCriteria(rowHeader: DLXCell, action: A) = 0
+    open fun requirementSortCriteria(columnHeader: DLXCell, requirement: R) = columnHeader.size
     open fun processRowSelection(row: DLXCell, action: A) {}
     open fun processRowDeselection(row: DLXCell, action: A) {}
 
