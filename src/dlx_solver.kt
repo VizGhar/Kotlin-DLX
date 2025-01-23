@@ -121,6 +121,22 @@ abstract class DLXSolver<in R : Any, A : Any>(
         solutionIsValid = false
     }
 
+    fun disableActions(filter: (A) -> Boolean) {
+        for (rowHeader in rowHeaders) {
+            if (filter(rowHeader.key)) {
+                rowHeader.value.removeRow()
+            }
+        }
+    }
+
+    fun enableActions(filter: (A) -> Boolean) {
+        for (rowHeader in rowHeaders) {
+            if (filter(rowHeader.key)) {
+                rowHeader.value.restoreRow()
+            }
+        }
+    }
+
     open fun actionSortCriteria(rowHeader: DLXCell, action: A) = 0
     open fun requirementSortCriteria(columnHeader: DLXCell, requirement: R) = columnHeader.size
     open fun processRowSelection(row: DLXCell, action: A) {}

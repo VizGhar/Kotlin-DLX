@@ -123,4 +123,4 @@ fun main() {
 16. [Suguru Solver](https://www.codingame.com/training/medium/suguru-solver)
 17. [Dumbells](https://www.codingame.com/training/hard/dumbbells-solver)
 18. [High-rise buildings](https://www.codingame.com/training/expert/high-rise-buildings)
-19. [Nonogram inversor - WIP](https://www.codingame.com/training/hard/nonogram-inversor)
+19. [Nonogram inversor](https://www.codingame.com/training/hard/nonogram-inversor) - Redundand - problem-space reduction fully solved it
