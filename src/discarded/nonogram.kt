@@ -1,4 +1,4 @@
-package examples
+package discarded
 
 import DLXSolver
 import kotlin.system.measureTimeMillis
@@ -137,12 +137,12 @@ private object Nonogram {
 
         println(millis)
     }
-}
 
-fun main() {
-    val (width, height) = readln().split(" ").map { it.toInt() }
-    Nonogram.solve(
-        List(width) { readln().split(" ").map { it.toInt() } },
-        List(height) { readln().split(" ").map { it.toInt() } },
-    )
+    fun solve() {
+        val (width, height) = readln().split(" ").map { it.toInt() }
+        solve(
+            List(width) { readln().split(" ").map { it.toInt() } },
+            List(height) { readln().split(" ").map { it.toInt() } },
+        )
+    }
 }
