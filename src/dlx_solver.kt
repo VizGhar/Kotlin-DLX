@@ -93,6 +93,7 @@ abstract class DLXSolver<in R : Any, A : Any>(
     }
 
     private fun checkFinish() {
+        // added to break recursion
         counter--
         if (counter == 0) onFinished(allSolutions)
     }
@@ -109,6 +110,12 @@ abstract class DLXSolver<in R : Any, A : Any>(
         processRowDeselection(cell.rowHeader, cell.rowHeader.content as? A ?: throw IllegalStateException())
     }
 
+    /**
+     * Call this function during [processRowSelection] in order
+     * to remember provided [data]. If there are being same [data]
+     * stored in same depth of search, solution is automatically
+     * discarded.
+     */
     fun remember(data: Any) {
         if (data in history.last()) {
             solutionIsValid = false
@@ -117,24 +124,8 @@ abstract class DLXSolver<in R : Any, A : Any>(
         }
     }
 
-    fun markAsInvalid() {
+    private fun markAsInvalid() {
         solutionIsValid = false
-    }
-
-    fun disableActions(filter: (A) -> Boolean) {
-        for (rowHeader in rowHeaders) {
-            if (filter(rowHeader.key)) {
-                rowHeader.value.removeRow()
-            }
-        }
-    }
-
-    fun enableActions(filter: (A) -> Boolean) {
-        for (rowHeader in rowHeaders) {
-            if (filter(rowHeader.key)) {
-                rowHeader.value.restoreRow()
-            }
-        }
     }
 
     open fun actionSortCriteria(rowHeader: DLXCell, action: A) = 0
@@ -142,7 +133,20 @@ abstract class DLXSolver<in R : Any, A : Any>(
     open fun processRowSelection(row: DLXCell, action: A) {}
     open fun processRowDeselection(row: DLXCell, action: A) {}
 
+    /**
+     * Called when solution is found. If there are multiple solutions
+     * this function will be called for each of them.
+     *
+     * @param solution current solution
+     * @return true to stop searching
+     */
     open fun processSolution(solution: List<A>): Boolean = false
+
+    /**
+     * All solutions found
+     *
+     * @param solutions found
+     */
     open fun onFinished(solutions: List<List<A>>) {}
 
 }

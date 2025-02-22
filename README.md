@@ -1,39 +1,42 @@
-
 # Dancing links
-
-Still work in progress - currently discovering the DLX / AlgorithmX realm
 
 Kotlin implementation of dancing links based on:  
 https://www.codingame.com/playgrounds/156252/algorithm-x/introduction
 
-Pure implementation of DLX Solver can be found in [src/dlx_solver.kt](src/dlx_solver.kt)
+It's made such that is as close as possible to Python implementation used
+in mentioned tutorial. So practical examples can be found there. Huge kudos
+to author of a playground.
 
+Base class of DLX Solver can be found in [src/dlx_solver.kt](src/dlx_solver.kt)
 
-## DLXSolver
-Constructor of `DLXSolver` class accepts following required attributes:
+## DLXSolver usage in Kotlin
+Constructor of `DLXSolver<Requirement, Action>` class accepts following required attributes:
 
-1. `requirements` - `List` of requirements of any type
+1. `requirements` - `List` of requirements of `Requirement` type
 2. `actions` - `Map` in which key is `Action` and value is list of satisfied `requirements` (or `optionalRequirements`)
 3. `optionalRequirements` - `List` similar to `requirements` but these `requirements` are optional and by default empty.
 
-In order to use `DLXSolver` you have to extend it, instantiate it and call its `solve()` function. `solve` function by default finds every solution. Since it may take some time to compute all solutions, you have to override either one of these functions:
+In order to use `DLXSolver` you have to extend it, instantiate it and call its `solve()` function.
+`solve` function by default finds every solution. Since it may take some time to compute all solutions,
+you have to override either one of these functions:
 
 1. `processSolution(solution)` function - gives you solutions one by one in `solution` attribute. You may return `true` if solution is processed in order to break the execution of `solve()` function
 2. `onFinished(solutions)` function - gives you all `solutions` ever found
 
-`solution` is always `List` of `Actions` that leads to solution of given problem.
+`solution` is always `List` of `Actions` that leads to solution of given problem. So if you properly describe actions,
+you should be able to reconstruct steps to find solution.
 
 ## Recommended usage
 
 If you are not interested in reading and/or you know Kotlin, you can simply Check [Paving with bricks implementation](src/paving/paving_with_bricks.kt) to understand the approach I'm about to describe.
 
 ### Specify requirements and actions classes
-Best option to specify requirements is to create `sealed interface` and extend it using `data classes`, and same goes for actions.
+Best option to specify `requirements` is to create `sealed interface` and extend it using `data classes`, and same goes for actions.
 
 ```kt
 sealed interface Requirement {  
     data class CellCovered(val x: Int, val y: Int) : Requirement
-    data class Requirement2(val value: String) : Requirement
+    data class Requirement2(val value: String) : Requirement        // just for demonstration purposes
 }
 
 sealed interface Action {
@@ -42,7 +45,11 @@ sealed interface Action {
 
 ```
 
-However if you are using only one type of actions (or requirements) you don't need `sealed interface`. Your Action class might look like this:
+If you want to fully follow mentioned tutorial, you can pass simple `String`s as well. I've found my approach
+more suitable for decoding solutions.
+
+However, if you are using only one type of `actions` (or `requirements`) you don't need `sealed interface`.
+So your Action class might look like this:
 
 ```kt
 data class PlaceTile(val x: Int, val y: Int, val shape: Shape)
@@ -50,7 +57,9 @@ data class PlaceTile(val x: Int, val y: Int, val shape: Shape)
 
 ### Extend DLXSolver
 
-Now you need to extend DLXSolver and implement either `onFinished` or `processSolution` function.  If you need to know how many solutions there are for given problem, you can simply use this implementation:
+Now you need to extend DLXSolver and implement either `onFinished` or `processSolution` function.
+For example if you need to know how many solutions there are for given problem, you can simply
+use this implementation:
 
 ```kt
 class MySolver(  
@@ -64,7 +73,6 @@ class MySolver(
 }
 ```
 
-
 ### Feed your solver
 
 Instantiate your solver with necessary attributes, like this:
@@ -72,11 +80,12 @@ Instantiate your solver with necessary attributes, like this:
 ```kt
 fun createSolver(...) : MySolver {  
     val requirements = mutableListOf<Requirement>()  
-    val actions = mutableMapOf<PlaceTile, List<Requirement>>()  
+    val actions = mutableMapOf<PlaceTile, List<Requirement>>()
+    val optionalRequirements = mutableListOf<Requirement>()     // just for demonstration purposes
 
     // create requirements
     requirements += Requirement.CellCovered(x, y)
-    optionalRequirements += Requirement.Requirement2("")
+    optionalRequirements += Requirement.Requirement2("")        // just for demonstration purposes
 
 	actions[PlaceTile(x, y, shape)] = listOf(
 	    Requirement.CellCovered(...),
@@ -91,17 +100,13 @@ fun createSolver(...) : MySolver {
 
 ### Solve
 
+And politely ask DLX solver to solve your problem:
+
 ```kt
 fun main() {  
     createSolver(...).solve()  
 }
 ```
-
-## TODOs
-
-- history
-- isValidSolution
-- more solved puzzles
 
 ## Solved puzzles
 
