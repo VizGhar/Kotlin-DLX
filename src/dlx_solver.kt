@@ -124,7 +124,7 @@ abstract class DLXSolver<in R : Any, A : Any>(
         }
     }
 
-    private fun markAsInvalid() {
+    fun markAsInvalid() {
         solutionIsValid = false
     }
 

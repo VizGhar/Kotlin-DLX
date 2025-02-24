@@ -130,3 +130,4 @@ fun main() {
 18. [High-rise buildings](https://www.codingame.com/training/expert/high-rise-buildings)
 19. [Nonogram inversor](https://www.codingame.com/training/hard/nonogram-inversor) - Redundand - problem-space reduction fully solved it
 20. [Polyominos](https://www.codingame.com/contribute/view/118617e82691f956c4a6959ea420471eeae900)
+21. [Tetrasticks](https://www.codingame.com/contribute/view/118881f59230e1500f13bfc4f9138add967b0e)
